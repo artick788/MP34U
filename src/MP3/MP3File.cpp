@@ -11,7 +11,7 @@ namespace mp34u{
     m_DataSize(0),
     m_CurrHeader(nullptr){
         std::ifstream file(path, std::ios::binary);
-        // get the file size
+        // get the file frameSize
         file.seekg(0, std::ios::end);
         m_FileSize = static_cast<uint32_t>(file.tellg());
         file.seekg(0, std::ios::beg);
@@ -38,7 +38,8 @@ namespace mp34u{
         auto frameSize = m_ID3FrameHeader->getFrameSize();
         std::ofstream file(path, std::ios::binary);
         file.write(m_ID3v24Header.ID, 3);
-        file.write(reinterpret_cast<char*>(&m_ID3v24Header.version), 1);
+        char version = 4;
+        file.write(&version, 1);
         file.write(reinterpret_cast<char*>(&m_ID3v24Header.revision), 1);
         file.write(reinterpret_cast<char*>(&m_ID3v24Header.flags), 1);
         file.write(reinterpret_cast<char*>(&frameSize), 4);
@@ -72,7 +73,7 @@ namespace mp34u{
             m_ID3v24Header.version = static_cast<int8_t>(header[3]); // byte 4 is the ID3 version
             m_ID3v24Header.revision = static_cast<int8_t>(header[4]); // byte 5 is the ID3 revision
             m_ID3v24Header.flags = static_cast<int8_t>(header[5]); // byte 6 is the ID3 flags
-            m_ID3v24Header.size = static_cast<int32_t>(header[6] << 21 | header[7] << 14 | header[8] << 7 | header[9]); // bytes 7-10 are the tag size
+            m_ID3v24Header.frameSize = static_cast<int32_t>(header[6] << 21 | header[7] << 14 | header[8] << 7 | header[9]); // bytes 7-10 are the tag frameSize
             return true;
         }
         return false;
@@ -81,7 +82,7 @@ namespace mp34u{
     void MP3File::readMetaDataHeader(std::ifstream &file) {
         int32_t increment = 10; // frame header is 10 bytes
         uint32_t pos = 10;
-        for (pos = 10; pos < m_ID3v24Header.size; pos += increment){
+        for (pos = 10; pos < m_ID3v24Header.frameSize; pos += increment){
             char frameID[4];
             file.seekg(pos, std::ios::beg);
             file.read(frameID, 4);
@@ -106,9 +107,9 @@ namespace mp34u{
         }
 
         // now store the rest of the data
-        m_DataSize = m_FileSize - m_ID3v24Header.size;
+        m_DataSize = m_FileSize - m_ID3v24Header.frameSize;
         m_Data = std::make_unique<char[]>(m_DataSize);
-        file.read(m_Data.get(), m_FileSize - m_ID3v24Header.size);
+        file.read(m_Data.get(), m_FileSize - m_ID3v24Header.frameSize);
     }
 
     void MP3File::parseMetaData() {

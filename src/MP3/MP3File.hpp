@@ -10,7 +10,7 @@ namespace mp34u{
         int8_t version = 0;
         int8_t revision = 0;
         int8_t flags = 0;
-        int32_t size = 0;
+        int32_t frameSize = 0;
     };
 
     class MP3File: public MusicFile{

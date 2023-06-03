@@ -7,6 +7,7 @@ namespace mp34u{
         m_ID = std::string(ID, 4);
         m_Data = std::make_unique<char[]>(size);
         file.read(m_Data.get(), size);
+        printf("Frame size: %i\n", size);
     }
 
     ID3FrameHeader::ID3FrameHeader(const char *ID, int32_t size, int16_t flags, std::unique_ptr<char[]> &data):
