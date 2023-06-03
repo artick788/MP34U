@@ -21,18 +21,28 @@ namespace mp34u{
 
         void save(const std::string& path) override;
 
+        void updateMetaDataHeader();
+
     private:
         bool readID3Tag(std::ifstream& file);
 
-        void readHeader(std::ifstream& file);
+        void readMetaDataHeader(std::ifstream& file);
 
-        void parseHeader();
+        void parseMetaData();
+
+        void setValue(const std::string& frameID, const std::string& value);
 
     private:
         std::string m_Path;
         ID3v24Header m_ID3v24Header;
         std::unique_ptr<ID3FrameHeader> m_ID3FrameHeader;
+        ID3FrameHeader* m_CurrHeader;
         uint32_t m_FrameCount;
+
+        uint32_t m_FileSize;
+        uint32_t m_DataSize;
+
+        std::unique_ptr<char[]> m_Data;
 
 
     };

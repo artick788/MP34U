@@ -2,11 +2,19 @@
 
 namespace mp34u{
 
-    ID3FrameHeader::ID3FrameHeader(char *ID, int32_t size, int16_t flags, std::ifstream& file):
+    ID3FrameHeader::ID3FrameHeader(const char *ID, int32_t size, int16_t flags, std::ifstream& file):
     m_Size(size), m_Flags(flags), m_Next(nullptr){
         m_ID = std::string(ID, 4);
         m_Data = std::make_unique<char[]>(size);
         file.read(m_Data.get(), size);
+    }
+
+    ID3FrameHeader::ID3FrameHeader(const char *ID, int32_t size, int16_t flags, std::unique_ptr<char[]> &data):
+    m_Size(size), m_Flags(flags), m_Next(nullptr){
+        m_ID = std::string(ID, 4);
+        m_Data = std::make_unique<char[]>(size);
+        memcpy(m_Data.get(), data.get(), size);
+
     }
 
     ID3FrameHeader::~ID3FrameHeader() {
@@ -33,26 +41,38 @@ namespace mp34u{
         return m_Data;
     }
 
-    std::string ID3FrameHeader::search(const std::string &ID) {
+    ID3FrameHeader* ID3FrameHeader::search(const std::string &ID) {
         if (ID == m_ID){
-            if (m_Data[0] == 0x00){
-                return std::string(m_Data.get() + 1, m_Size - 1);
-            }
-            else if (m_Data[0] == 0x03){
-                return std::string(m_Data.get() + 1, m_Size - 1);
-            }
-            else{
-                return std::string(m_Data.get(), m_Size);
-            }
+            return this;
         }
-        else{
-            if (m_Next){
-                return m_Next->search(ID);
-            }
-            else{
-                return "Unknown";
-            }
+        if (m_Next){
+            return m_Next->search(ID);
         }
+        return nullptr;
+    }
+
+    void ID3FrameHeader::setData(char *buf, int32_t size) {
+        m_Data = std::make_unique<char[]>(size);
+        memcpy(m_Data.get(), buf, size);
+        m_Size = size;
+    }
+
+    uint32_t ID3FrameHeader::getFrameSize() const {
+        if (m_Next == nullptr){
+            return m_Size + 10;
+        }
+        return m_Size + 10 + m_Next->getFrameSize();
+    }
+
+    void ID3FrameHeader::write(std::ofstream &file) {
+        file.write(m_ID.c_str(), 4);
+        file.write(reinterpret_cast<char*>(&m_Size), 4);
+        file.write(reinterpret_cast<char*>(&m_Flags), 2);
+        file.write(m_Data.get(), m_Size);
+        if (m_Next){
+            m_Next->write(file);
+        }
+
     }
 }
 

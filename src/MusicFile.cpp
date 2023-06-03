@@ -22,7 +22,7 @@ namespace mp34u{
         return m_Genre;
     }
 
-    const std::string& MusicFile::getYear() const {
+    int32_t MusicFile::getYear() const {
         return m_Year;
     }
 
@@ -34,7 +34,7 @@ namespace mp34u{
         return m_Key;
     }
 
-    uint32_t MusicFile::getBPM() const {
+    int32_t MusicFile::getBPM() const {
         return m_BPM;
     }
 
@@ -58,7 +58,7 @@ namespace mp34u{
         m_Genre = genre;
     }
 
-    void MusicFile::setYear(const std::string& year) {
+    void MusicFile::setYear(int32_t year) {
         m_Year = year;
     }
 
@@ -70,17 +70,14 @@ namespace mp34u{
         m_Key = key;
     }
 
-    void MusicFile::setBPM(uint32_t bpm) {
+    void MusicFile::setBPM(int32_t bpm) {
         m_BPM = bpm;
-    }
-
-    void MusicFile::setType(MusicFileType type) {
-        m_Type = type;
     }
 
     MusicFile::MusicFile(MusicFileType type):
     m_Type(type),
-    m_BPM(0){
+    m_BPM(0),
+    m_Year(0){
 
     }
 }

@@ -9,7 +9,9 @@ namespace mp34u{
 
     class ID3FrameHeader{
     public:
-        ID3FrameHeader(char* ID, int32_t size, int16_t flags, std::ifstream& file);
+        ID3FrameHeader(const char* ID, int32_t size, int16_t flags, std::ifstream& file);
+
+        ID3FrameHeader(const char* ID, int32_t size, int16_t flags, std::unique_ptr<char[]>& data);
 
         ~ID3FrameHeader();
 
@@ -19,7 +21,7 @@ namespace mp34u{
             return m_Next.get();
         }
 
-        std::string search(const std::string& ID);
+        ID3FrameHeader* search(const std::string& ID);
 
         [[nodiscard]] const std::string& getID() const;
 
@@ -30,6 +32,12 @@ namespace mp34u{
         [[nodiscard]] const std::unique_ptr<ID3FrameHeader>& getNext() const;
 
         [[nodiscard]] const std::unique_ptr<char[]>& getData() const;
+
+        void setData(char* buf, int32_t size);
+
+        uint32_t getFrameSize() const;
+
+        void write(std::ofstream& file);
 
     private:
         std::string m_ID;

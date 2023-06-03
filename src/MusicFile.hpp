@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <memory>
+#include <algorithm>
 
 
 namespace mp34u{
@@ -25,13 +26,13 @@ namespace mp34u{
 
         [[nodiscard]] const std::string& getGenre() const;
 
-        [[nodiscard]] const std::string& getYear() const;
+        [[nodiscard]] int32_t getYear() const;
 
         [[nodiscard]] const std::string& getComment() const;
 
         [[nodiscard]] const std::string& getKey() const;
 
-        [[nodiscard]] uint32_t getBPM() const;
+        [[nodiscard]] int32_t getBPM() const;
 
         [[nodiscard]] MusicFileType getType() const;
 
@@ -43,15 +44,13 @@ namespace mp34u{
 
         void setGenre(const std::string& genre);
 
-        void setYear(const std::string& year);
+        void setYear(int32_t year);
 
         void setComment(const std::string& comment);
 
         void setKey(const std::string& key);
 
-        void setBPM(uint32_t bpm);
-
-        void setType(MusicFileType type);
+        void setBPM(int32_t bpm);
 
         virtual void save(const std::string& path) = 0;
 
@@ -63,10 +62,10 @@ namespace mp34u{
         std::string m_Artist;
         std::string m_Album;
         std::string m_Genre;
-        std::string m_Year;
+        int32_t m_Year;
         std::string m_Comment;
         std::string m_Key;
-        uint32_t m_BPM;
+        int32_t m_BPM;
 
 
     private:
