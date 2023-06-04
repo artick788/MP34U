@@ -21,6 +21,7 @@ namespace mp34u{
     m_FrameCount(0){
         readTagHeader(file);
         readTagData(file);
+
     }
 
     ID3Tag::~ID3Tag() {
@@ -52,17 +53,20 @@ namespace mp34u{
     }
 
     void ID3Tag::setValue(const std::string &id, const std::string &value) {
+        if (value.empty()){
+            return;
+        }
         auto frame = m_Data->searchFrame(id);
         if (frame){
             frame->setValue(value);
         }
         else{
             // check if there is enough padding space, should almost never occur but just in case
-            if (m_TagSize < getTagSize() + value.size() + 1){
+            if (m_TagSize < getTagDataSize() + value.size() + 1){
                 m_TagSize += value.size() + 1;
             }
             m_LastFrame = m_LastFrame->setNext(id, value);
-
+            m_FrameCount++;
         }
     }
 
