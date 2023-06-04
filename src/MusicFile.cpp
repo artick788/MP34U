@@ -1,5 +1,7 @@
 #include "MusicFile.hpp"
 
+#include <utility>
+
 namespace mp34u{
 
     MusicFile::~MusicFile() {
@@ -22,7 +24,7 @@ namespace mp34u{
         return m_Genre;
     }
 
-    int32_t MusicFile::getYear() const {
+    std::string MusicFile::getYear() const {
         return m_Year;
     }
 
@@ -34,7 +36,7 @@ namespace mp34u{
         return m_Key;
     }
 
-    int32_t MusicFile::getBPM() const {
+    std::string MusicFile::getBPM() const {
         return m_BPM;
     }
 
@@ -58,8 +60,8 @@ namespace mp34u{
         m_Genre = genre;
     }
 
-    void MusicFile::setYear(int32_t year) {
-        m_Year = year;
+    void MusicFile::setYear(std::string year) {
+        m_Year = std::move(year);
     }
 
     void MusicFile::setComment(const std::string& comment) {
@@ -70,14 +72,12 @@ namespace mp34u{
         m_Key = key;
     }
 
-    void MusicFile::setBPM(int32_t bpm) {
-        m_BPM = bpm;
+    void MusicFile::setBPM(std::string bpm) {
+        m_BPM = std::move(bpm);
     }
 
     MusicFile::MusicFile(MusicFileType type):
-    m_Type(type),
-    m_BPM(0),
-    m_Year(0){
+    m_Type(type){
 
     }
 }
