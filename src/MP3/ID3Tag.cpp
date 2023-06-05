@@ -82,10 +82,11 @@ namespace mp34u{
 
     void ID3Tag::save(std::ofstream &file) {
         char header[] = {'I', 'D', '3', m_Version, m_Revision, m_Flags, 0, 0, 0, 0};
-        header[6] =  static_cast<char>((m_TagSize >> 24) & 0xFF);
-        header[7] = static_cast<char>((m_TagSize >> 16) & 0xFF);
-        header[8] = static_cast<char>((m_TagSize >> 8) & 0xFF);
-        header[9] = static_cast<char>(m_TagSize & 0xFF);
+        auto enc = encode(m_TagSize);
+        header[6] =  static_cast<char>((enc >> 24) & 0xFF);
+        header[7] = static_cast<char>((enc >> 16) & 0xFF);
+        header[8] = static_cast<char>((enc >> 8) & 0xFF);
+        header[9] = static_cast<char>(enc & 0xFF);
         file.write(header, 10);
 
         m_Data->save(file);
@@ -111,7 +112,7 @@ namespace mp34u{
         }
         m_Revision = buffer[4];   // Revision
         m_Flags = buffer[5];      // Flags
-        m_TagSize = buffer[6] << 24 | buffer[7] << 16 | buffer[8] << 8 | buffer[9]; // Tag size
+        m_TagSize = encode(btoi(buffer + 6, 4));
     }
 
     void ID3Tag::readTagData(std::ifstream &file) {
@@ -121,7 +122,7 @@ namespace mp34u{
             char buffer[10];
             file.read(buffer, 10);
             std::string id(buffer, 4);
-            uint32_t size = buffer[4] << 24 | buffer[5] << 16 | buffer[6] << 8 | buffer[7];
+            uint32_t size = encode(btoi(buffer + 4, 4));
             uint16_t flags = buffer[8] << 8 | buffer[9];
             pos += 10;
             if (s_KnownID3v24Tags.find(id) == s_KnownID3v24Tags.end()){

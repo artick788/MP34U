@@ -7,4 +7,4 @@ add_executable(MP34U main.cpp
         src/MusicFile.cpp
         src/MP3/MP3File.cpp
         src/MP3/ID3Tag.cpp
-        src/MP3/ID3Frame.cpp)
+        src/MP3/ID3Frame.cpp src/Utils.cpp src/Utils.hpp)

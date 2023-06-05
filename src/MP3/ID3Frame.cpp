@@ -76,15 +76,17 @@ namespace mp34u{
     void ID3Frame::save(std::ofstream &file) {
         char header[10];
         std::copy(m_ID.begin(), m_ID.end(), header);
-        header[4] = static_cast<char>((m_FrameDataSize >> 24) & 0xFF);
-        header[5] = static_cast<char>((m_FrameDataSize >> 16) & 0xFF);
-        header[6] = static_cast<char>((m_FrameDataSize >> 8) & 0xFF);
-        header[7] = static_cast<char>(m_FrameDataSize & 0xFF);
+        char* buf = itob(encode(m_FrameDataSize));
+        for (int i = 0; i < 4; i++){
+            header[i + 4] = buf[i];
+        }
         header[8] = static_cast<char>((m_Flags >> 8) & 0xFF);
         header[9] = static_cast<char>(m_Flags & 0xFF);
         file.write(header, 10);
 
         file.write(m_Data.get(), m_FrameDataSize);
+        std::streampos currentPosition = file.tellp();
+        printf("Wrote frame %s, current pos: %lld, frame size: %i\n", m_ID.c_str(), static_cast<long long>(currentPosition), m_FrameDataSize);
         if (m_Next){
             m_Next->save(file);
         }
