@@ -112,7 +112,9 @@ namespace mp34u{
         }
         m_Revision = buffer[4];   // Revision
         m_Flags = buffer[5];      // Flags
-        m_TagSize = encode(btoi(buffer + 6, 4));
+        m_TagSize = decode(btoi(buffer + 6, 4));
+
+        printf("Read ID3v2.%d.%d tag with size %d\n", m_Version, m_Revision, m_TagSize);
     }
 
     void ID3Tag::readTagData(std::ifstream &file) {
@@ -122,7 +124,7 @@ namespace mp34u{
             char buffer[10];
             file.read(buffer, 10);
             std::string id(buffer, 4);
-            uint32_t size = encode(btoi(buffer + 4, 4));
+            uint32_t size = decode(btoi(buffer + 4, 4));
             uint16_t flags = buffer[8] << 8 | buffer[9];
             pos += 10;
             if (s_KnownID3v24Tags.find(id) == s_KnownID3v24Tags.end()){
@@ -136,9 +138,11 @@ namespace mp34u{
                 m_Data = std::make_unique<ID3Frame>(id, size, flags, file);
                 m_LastFrame = m_Data.get();
             }
+            printf("Read ID3v2.4 tag: %s, size: %d, flags: %d\n", id.c_str(), size, flags);
             pos += size;
             m_FrameCount++;
         }
+        printf("Read %d ID3v2.4 frames\n", m_FrameCount);
 
     }
 
