@@ -43,9 +43,9 @@ namespace mp34u{
         int16_t m_Flags;
 
         // frame data
-        std::unique_ptr<char[]> m_Data;
+        UP<char[]> m_Data;
 
         // next frame
-        std::unique_ptr<ID3Frame> m_Next;
+        UP<ID3Frame> m_Next;
     };
 }

@@ -18,13 +18,13 @@ namespace mp34u{
         file.seekg(0, std::ios::beg);
 
         // read the ID3 tag
-        m_ID3Tag = std::make_unique<ID3Tag>(file);
+        m_ID3Tag = createUP<ID3Tag>(file);
 
         retrieveTagInfo();
 
         // read the data
         m_DataSize = m_FileSize - m_ID3Tag->getTagSize();
-        m_Data = std::make_unique<char[]>(m_DataSize);
+        m_Data = createUP<char[]>(m_DataSize);
         file.read(m_Data.get(), m_DataSize);
 
         file.close();

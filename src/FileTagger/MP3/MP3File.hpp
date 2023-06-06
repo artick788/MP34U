@@ -27,7 +27,7 @@ namespace mp34u{
         uint32_t m_FileSize;
         uint32_t m_DataSize;
 
-        std::unique_ptr<char[]> m_Data;
+        UP<char[]> m_Data;
 
 
     };

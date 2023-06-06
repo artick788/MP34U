@@ -4,7 +4,7 @@ namespace mp34u{
 
     ID3Frame::ID3Frame(std::string id, int32_t size, int16_t flags, std::ifstream& file):
     m_ID(std::move(id)), m_FrameDataSize(size), m_Flags(flags){
-        m_Data = std::make_unique<char[]>(m_FrameDataSize);
+        m_Data = createUP<char[]>(m_FrameDataSize);
         file.read(m_Data.get(), m_FrameDataSize);
     }
 
@@ -68,7 +68,7 @@ namespace mp34u{
 
     void ID3Frame::setValue(const std::string &value) {
         m_FrameDataSize = value.size() + 1; // +1 for null terminator
-        m_Data = std::make_unique<char[]>(m_FrameDataSize);
+        m_Data = createUP<char[]>(m_FrameDataSize);
         m_Data[0] = '\03'; // ASCII 0x03 is ETX (End of Text)
         std::copy(value.begin(), value.end(), m_Data.get() + 1);
     }

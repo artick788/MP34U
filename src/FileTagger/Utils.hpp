@@ -1,10 +1,6 @@
 #pragma once
 
-#include <string>
-#include <fstream>
-#include <memory>
-#include <algorithm>
-#include <unordered_set>
+#include "../Include.hpp"
 
 #define ID3V2_HEADER_SIZE 10
 #define ID3V2_EXTENDED_HEADER_SIZE 10

@@ -41,7 +41,7 @@ namespace mp34u{
         int32_t m_TagSize; // with padding
 
         // tag data
-        std::unique_ptr<ID3Frame> m_Data;
+        UP<ID3Frame> m_Data;
         ID3Frame* m_LastFrame;
 
         // utils

@@ -54,7 +54,7 @@ namespace mp34u{
 
     void ID3Tag::setValue(const std::string &id, const std::string &value) {
         if (value.empty()){
-            return;
+            return; // dont want to add empty frames
         }
         auto frame = m_Data->searchFrame(id);
         if (frame){
