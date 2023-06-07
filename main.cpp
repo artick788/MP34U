@@ -1,8 +1,13 @@
-#include "src/FileTagger/FileFactory.hpp"
+#include <iostream>
+#include "src/GUI/MP34UGui.hpp"
 
 int main() {
-    auto file = mp34u::createMP3File("./Files/Deekline - All The Way Up.mp3");
-    file->setBPM("174");
-    file->save("./Files/Deekline - All The Way Up.mp3");
+    try{
+        mp34u::GUI gui;
+        gui.run();
+    } catch (const std::exception& e){
+        std::cout << e.what() << std::endl;
+        return 1;
+    }
     return 0;
 }
