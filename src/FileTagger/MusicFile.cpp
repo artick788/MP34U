@@ -76,6 +76,17 @@ namespace mp34u{
         m_BPM = std::move(bpm);
     }
 
+    void MusicFile::setMetaData(const MusicMetaData &metaData) {
+        setTitle(metaData.title);
+        setArtist(metaData.artist);
+        setAlbum(metaData.album);
+        setGenre(metaData.genre);
+        setYear(metaData.year);
+        setComment(metaData.comment);
+        setKey(metaData.key);
+        setBPM(metaData.bpm);
+    }
+
     MusicFile::MusicFile(MusicFileType type):
     m_Type(type){
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Utils.hpp"
+#include "../Utils/MusicMetaData.hpp"
 
 namespace mp34u{
 
@@ -47,6 +48,8 @@ namespace mp34u{
         void setKey(const std::string& key);
 
         void setBPM(std::string bpm);
+
+        void setMetaData(const MusicMetaData& metaData);
 
         virtual void save(const std::string& path) = 0;
 

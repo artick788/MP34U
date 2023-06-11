@@ -44,7 +44,7 @@ namespace mp34u{
         UP<ID3Frame> m_Data;
         ID3Frame* m_LastFrame;
 
-        // utils
+        // Utils
         uint32_t m_FrameCount;
     };
 
