@@ -31,12 +31,13 @@ set(GUI_SRC
         src/GUI/MP34UGui.cpp
         src/GUI/AbstractWindow.cpp
         src/GUI/MenuWindow.cpp
-        src/GUI/FileTaggerWindow.cpp )
+        src/GUI/FileTaggerWindow.cpp
+        src/GUI/DownloadWindow.cpp
+        )
 
 set(DOWNLOADER_SRC
         src/Downloader/DownloadFactory.cpp
-        src/Downloader/Downloader.cpp
-        src/Downloader/PythonBridge.cpp )
+        src/Downloader/Downloader.cpp)
 
 
 add_executable(MP34U

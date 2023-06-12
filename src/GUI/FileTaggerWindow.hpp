@@ -13,8 +13,6 @@ namespace mp34u{
 
         void onRender() override;
 
-        void onResize(uint32_t width, uint32_t height) override;
-
     private:
         std::string m_FilePath;
         UP<MusicFile> m_MusicFile;

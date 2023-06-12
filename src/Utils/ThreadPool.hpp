@@ -4,6 +4,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <queue>
+#include <functional>
 
 class ThreadPool{
 public:
@@ -12,6 +13,16 @@ public:
     ~ThreadPool();
 
     void addTask(std::function<void()>& task);
+
+    template<typename... Args>
+    void addTask(Args&&... args) {
+        {
+            std::unique_lock<std::mutex> lock(m_QueueMutex);
+            m_Jobs.push(std::bind(std::forward<Args>(args)...));
+        }
+        mutex_condition.notify_one();
+    }
+
 
     void stop();
 

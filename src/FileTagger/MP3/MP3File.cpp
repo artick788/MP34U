@@ -37,9 +37,20 @@ namespace mp34u{
     void MP3File::save(const std::string &path) {
         updateTag();
 
-        std::ofstream file(path, std::ios::binary);
-        m_ID3Tag->save(file);
-        file.write(m_Data.get(), m_DataSize);
+        if (path.empty()) {
+            std::ofstream file(m_Path, std::ios::binary);
+            m_ID3Tag->save(file);
+            file.write(m_Data.get(), m_DataSize);
+        }
+        else{
+            std::ofstream file(path, std::ios::binary);
+            m_ID3Tag->save(file);
+            file.write(m_Data.get(), m_DataSize);
+
+            // delete old file
+            std::remove(m_Path.c_str());
+            m_Path = path;
+        }
     }
 
     void MP3File::updateTag() {

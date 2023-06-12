@@ -21,8 +21,6 @@ namespace mp34u{
 
         virtual void onRender() = 0;
 
-        virtual void onResize(uint32_t width, uint32_t height) = 0;
-
     protected:
 
         void beginImGuiWindow(const char* name);

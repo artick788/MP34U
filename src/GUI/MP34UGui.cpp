@@ -53,7 +53,7 @@ namespace mp34u{
 
         m_MenuWindow = createUP<MenuWindow>(m_Window, m_Context, m_State);
         m_FileTaggerWindow = createUP<FileTaggerWindow>(m_Window, m_Context, m_State);
-
+        m_DownloadWindow = createUP<DownloadWindow>(m_Window, m_Context, m_State);
     }
 
     void GUI::render() {
@@ -65,8 +65,7 @@ namespace mp34u{
                 m_FileTaggerWindow->onRender();
                 break;
             case GUIState::Download:
-                printf("Download is currently not implemented\n");
-                m_State = GUIState::Menu;
+                m_DownloadWindow->onRender();
                 break;
             case GUIState::About:
                 printf("About is currently not implemented\n");

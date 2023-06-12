@@ -2,15 +2,7 @@
 
 namespace mp34u{
 
-    DownloadFactory::DownloadFactory() {
-
-    }
-
-    DownloadFactory::~DownloadFactory() {
-
-    }
-
-    std::unique_ptr<MusicFile> DownloadFactory::download(const std::string &url, const MusicMetaData& metaData) {
-
+    std::string dowloadFromYoutube(const std::string& url){
+        return callYoutubeDownloader(url);
     }
 }

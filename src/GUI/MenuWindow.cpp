@@ -41,9 +41,4 @@ namespace mp34u{
 
         ImGui::End();
     }
-
-    void MenuWindow::onResize(uint32_t width, uint32_t height) {
-
-    }
-
 }

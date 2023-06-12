@@ -69,7 +69,4 @@ namespace mp34u{
         renderEndSection();
     }
 
-    void FileTaggerWindow::onResize(uint32_t width, uint32_t height) {
-
-    }
 }

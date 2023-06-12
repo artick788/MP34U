@@ -1,5 +1,6 @@
 #include <iostream>
 #include "src/GUI/MP34UGui.hpp"
+#include "src/Downloader/Downloader.hpp"
 
 int main() {
     try{

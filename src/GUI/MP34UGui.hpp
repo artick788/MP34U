@@ -2,7 +2,7 @@
 
 #include "MenuWindow.hpp"
 #include "FileTaggerWindow.hpp"
-
+#include "DownloadWindow.hpp"
 
 namespace mp34u{
 
@@ -29,6 +29,7 @@ namespace mp34u{
 
         UP<MenuWindow> m_MenuWindow;
         UP<FileTaggerWindow> m_FileTaggerWindow;
+        UP<DownloadWindow> m_DownloadWindow;
 
     };
 
