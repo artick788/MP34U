@@ -43,37 +43,23 @@ namespace mp34u{
 
         ImGui::NewLine();
         if (ImGui::Button("Download", ImVec2(430, 20))){
-            auto url = std::string(m_URL);
-            if (!url.empty()){
-                // copy everything so that the user can change the values while the download is in progress
-                auto outputDir = std::string(m_OutputDir);
-                auto title = std::string(m_Title);
-                auto artist = std::string(m_Artist);
-                auto album = std::string(m_Album);
-                auto year = std::string(m_Year);
-                auto genre = std::string(m_Genre);
-                auto key = std::string(m_Key);
-                auto comment = std::string(m_Comment);
-                auto bpm = std::string(m_BPM);
-                m_ThreadPool.addTask([this, &url, &title, &artist, &album, &year, &genre, &key, &comment, &bpm, &outputDir]{
-                    auto musicFilepath = dowloadFromYoutube(url);
-                    if (!musicFilepath.empty()){
-                        auto musicFile = createMP3File(musicFilepath);
-                        musicFile->setTitle(title);
-                        musicFile->setArtist(artist);
-                        musicFile->setAlbum(album);
-                        musicFile->setYear(year);
-                        musicFile->setGenre(genre);
-                        musicFile->setKey(key);
-                        musicFile->setComment(comment);
-                        musicFile->setBPM(bpm);
+            m_ThreadPool.addTask([this]{
+                auto musicFilepath = dowloadFromYoutube(m_URL);
+                if (!musicFilepath.empty()){
+                    auto musicFile = createMP3File(musicFilepath);
+                    musicFile->setTitle(m_Title);
+                    musicFile->setArtist(m_Artist);
+                    musicFile->setAlbum(m_Album);
+                    musicFile->setYear(m_Year);
+                    musicFile->setGenre(m_Genre);
+                    musicFile->setKey(m_Key);
+                    musicFile->setComment(m_Comment);
+                    musicFile->setBPM(m_BPM);
 
-                        std::string newFileName = outputDir + "\\" + std::string(artist) + " - " + std::string(title) + ".mp3";
-                        musicFile->save(newFileName);
-                    }
-                });
-                zeroMemory();
-            }
+                    std::string newFileName = m_OutputDir + "\\" + std::string(m_Artist) + " - " + std::string(m_Title) + ".mp3";
+                    musicFile->save(newFileName);
+                }
+            });
         }
 
         renderEndSection();
