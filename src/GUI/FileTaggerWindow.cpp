@@ -25,7 +25,7 @@ namespace mp34u{
         beginImGuiWindow("File Tagger");
         if (m_FilePath.empty()){
             if (ImGui::Button("Select File")){
-                m_FilePath = m_Window->openFileDialog("");
+                m_FilePath = m_Window->openFileDialog("MP3 Files\0*.mp3\0");
                 if (!m_FilePath.empty()){
                     m_MusicFile = createMP3File(m_FilePath);
                     memcpy(m_Artist, m_MusicFile->getArtist().c_str(), m_MusicFile->getArtist().size());

@@ -82,11 +82,11 @@ namespace mp34u{
 
     void ID3Tag::save(std::ofstream &file) {
         char header[] = {'I', 'D', '3', m_Version, m_Revision, m_Flags, 0, 0, 0, 0};
-        auto enc = encode(m_TagSize);
-        header[6] =  static_cast<char>((enc >> 24) & 0xFF);
-        header[7] = static_cast<char>((enc >> 16) & 0xFF);
-        header[8] = static_cast<char>((enc >> 8) & 0xFF);
-        header[9] = static_cast<char>(enc & 0xFF);
+        auto bytes = itob(encode(m_TagSize));
+        header[6] =  bytes[0];
+        header[7] = bytes[1];
+        header[8] = bytes[2];
+        header[9] = bytes[3];
         file.write(header, 10);
 
         m_Data->save(file);

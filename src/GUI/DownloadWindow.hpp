@@ -5,6 +5,9 @@
 #include "../FileTagger/FileFactory.hpp"
 #include "../Downloader/DownloadFactory.hpp"
 
+#include <Windows.h>
+#include <ShlObj.h>
+
 namespace mp34u{
 
     class DownloadWindow: public AbstractWindow{
@@ -17,10 +20,17 @@ namespace mp34u{
         void onRender() override;
 
     private:
+
+        std::string getDirectoryDialog();
+
+        void zeroMemory();
+
+    private:
         UP<MusicFile> m_MusicFile;
         ThreadPool m_ThreadPool;
 
         char m_URL[512];
+        std::string m_OutputDir;
 
         char m_Title[256];
         char m_Artist[256];
