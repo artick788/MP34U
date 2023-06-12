@@ -15,7 +15,15 @@ namespace mp34u{
     m_Key(),
     m_Comment(),
     m_BPM(){
-
+        memset(m_URL, 0, 512);
+        memset(m_Title, 0, 256);
+        memset(m_Artist, 0, 256);
+        memset(m_Album, 0, 256);
+        memset(m_Year, 0, 256);
+        memset(m_Genre, 0, 256);
+        memset(m_Key, 0, 10);
+        memset(m_Comment, 0, 256);
+        memset(m_BPM, 0, 10);
     }
 
     DownloadWindow::~DownloadWindow() {
@@ -37,7 +45,7 @@ namespace mp34u{
         ImGui::InputText("BPM", m_BPM, 10);
 
         ImGui::NewLine();
-        if (ImGui::Button("Download", ImVec2(230, 20))){
+        if (ImGui::Button("Download", ImVec2(430, 20))){
             m_ThreadPool.addTask([this]{
                 auto musicFilepath = dowloadFromYoutube(m_URL);
                 if (!musicFilepath.empty()){
