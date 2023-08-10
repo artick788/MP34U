@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Include.hpp"
+#include "../Core/Include.hpp"
 
 #define ID3V2_HEADER_SIZE 10
 #define ID3V2_EXTENDED_HEADER_SIZE 10

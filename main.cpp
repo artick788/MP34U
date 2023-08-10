@@ -1,11 +1,15 @@
 #include <iostream>
-#include "src/GUI/MP34UGui.hpp"
-#include "src/Downloader/Downloader.hpp"
+#include "src/Core/Include.hpp"
+#include "src/GUI/Installer/InstallerGUI.hpp"
 
 int main() {
     try{
-        mp34u::GUI gui;
-        gui.run();
+        Syrius::syriusCoreInit();
+        if (!std::filesystem::exists(mp34u::s_ConfigFile)){
+            mp34u::InstallerGUI gui;
+            gui.run();
+        }
+        Syrius::syriusCoreTerminate();
     } catch (const std::exception& e){
         std::cout << e.what() << std::endl;
         return 1;

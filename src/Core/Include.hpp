@@ -5,8 +5,17 @@
 #include <memory>
 #include <algorithm>
 #include <unordered_set>
+#include <vector>
+#include <filesystem>
+
+#include "Json.hpp"
+#include <EasyIni/EasyIni.hpp>
+#include <SyriusCore/SyriusCore.hpp>
+
+#include "PlatformDetection.hpp"
 
 namespace mp34u{
+    using namespace Syrius;
 
     template<typename T>
     using UP = std::unique_ptr<T>;
@@ -24,5 +33,8 @@ namespace mp34u{
     inline RCP<T> createRCP(Args&&... args){
         return std::make_shared<T>(args...);
     }
+
+    const std::string s_ConfigFile = "Config.ini";
+    const std::string s_LibraryFile = "Library.json";
 
 }
